@@ -24,6 +24,12 @@ public class QuizService {
 	@Autowired
 	QuestionRepository qDao;
     
+	public QuizService(QuizDao quizDaoMock, QuestionRepository questionRepositoryMock) {
+		dao = quizDaoMock;
+		qDao = questionRepositoryMock;
+		
+	}
+
 	public ResponseEntity<String> createQuiz(String category, int numQ, String title) {
 		List<Question> questions = qDao.findRandomQuestionsByCategory(category,numQ);
 		Quiz quiz = new Quiz();

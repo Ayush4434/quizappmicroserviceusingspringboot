@@ -1,4 +1,4 @@
-package com.quizApp;
+package com.quizApp.service;
 
 import org.mockito.Mock;
 import org.junit.jupiter.api.AfterEach;
@@ -29,11 +29,11 @@ public class QuestionServiceTest {
   void setUp() {
       auto = MockitoAnnotations.openMocks(this);
       service = new QuestionService(repos);
-      q = new Question(2,"Java","Easy","Object-Oriented Programming","Object-Oriented Protocol","Object-Oriented Processing","Object-Oriented Procedure","What does OOP stand for in Java?","Object-Oriented Programming");
-      q1 = new Question(3, "Java", "Medium", "final", "const", "static", "let", "Which keyword is used to define a constant in Java?", "final");
-      q2 = new Question(4, "Python", "Easy", "Mutable", "Immutable", "Sequential", "Linear", "What is a Python list?", "Mutable");
-      q3 = new Question(5, "Python", "Medium", "The current object instance", "The parent class", "The child class", "The global namespace", "In Python, what does the 'self' keyword represent in a class?", "The current object instance");
-      q4 = new Question(6, "Python", "Medium", "Lists", "Tuples", "Dictionary", "Class", "Which of the following is not a core data type in Python?", "Class");
+      q = new Question(1,"Java","Easy","Object-Oriented Programming","Object-Oriented Protocol","Object-Oriented Processing","Object-Oriented Procedure","What does OOP stand for in Java?","Object-Oriented Programming");
+      q1 = new Question(2, "Java", "Medium", "final", "const", "static", "let", "Which keyword is used to define a constant in Java?", "final");
+      q2 = new Question(3, "Python", "Easy", "Mutable", "Immutable", "Sequential", "Linear", "What is a Python list?", "Mutable");
+      q3 = new Question(4, "Python", "Medium", "The current object instance", "The parent class", "The child class", "The global namespace", "In Python, what does the 'self' keyword represent in a class?", "The current object instance");
+      q4 = new Question(5, "Python", "Medium", "Lists", "Tuples", "Dictionary", "Class", "Which of the following is not a core data type in Python?", "Class");
       questionList.add(q);
       questionList.add(q1);
       questionList.add(q2);
@@ -108,5 +108,15 @@ public class QuestionServiceTest {
       verify(repos, times(1)).deleteById(123); 
       assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(response.getBody()).isEqualTo("Successfully Deleted");
+  }
+  @Test
+  void testAddQuestions()
+  {
+	  mock(Question.class);
+      mock(QuestionRepository.class);
+      when(repos.saveAll(questionList)).thenReturn(questionList);
+      ResponseEntity<String> response = service.addquestions(questionList);
+      assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+      assertThat(response.getBody()).isEqualTo("success");
   }
 }
